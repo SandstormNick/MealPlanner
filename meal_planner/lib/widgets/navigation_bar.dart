@@ -39,15 +39,6 @@ class AppNavigationBar extends ConsumerWidget {
 
 
 //---------------------------------------------------------Temporary
-class Screen1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Week Screen'),
-    );
-  }
-}
-
 class Screen2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

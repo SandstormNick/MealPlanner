@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '/screens/week_screen.dart';
 import '../widgets/navigation_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -14,7 +15,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    Screen1(),
+    const WeekScreen(),
     Screen2(),
     Screen3(),
     Screen4(),
