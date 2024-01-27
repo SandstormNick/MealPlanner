@@ -24,6 +24,7 @@ class DBHelper {
 
     //Adding Seed data 
     _seedDaysTableData();
+    _seedMealTimeTableData();
   }
 }
 
@@ -37,3 +38,11 @@ Future<void> _seedDaysTableData() async {
   await db.insert('day', {'DayName': 'Saturday'});
   await db.insert('day', {'DayName': 'Sunday'});
 }
+
+Future<void> _seedMealTimeTableData() async {
+  final db = await DBHelper.database();
+  await db.insert('mealtime', {'MealTimeName': 'Breakfast'});
+  await db.insert('mealtime', {'MealTimeName': 'Lunch'});
+  await db.insert('mealtime', {'MealTimeName': 'Dinner'});
+}
+
