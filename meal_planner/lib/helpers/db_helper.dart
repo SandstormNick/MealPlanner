@@ -21,5 +21,19 @@ class DBHelper {
 
     //This is the main joining table that links meals/ingredients with the day_mealtime table and displays on the main Week screen
     await db.execute('CREATE TABLE mealtime_food(MealTimeFoodId INTEGER PRIMARY KEY, MealId_FK INTEGER, IngredientId_FK INTEGER, DayMealTimeId_FK, FOREIGN KEY (MealId_FK) REFERENCES meal(MealId), FOREIGN KEY (IngredientId_FK) REFERENCES ingredient(IngredientId), FOREIGN KEY (DayMealTimeId_FK) REFERENCES day_mealtime(DayMealTimeId))');
+
+    //Adding Seed data 
+    _seedDaysTableData();
   }
+}
+
+Future<void> _seedDaysTableData() async {
+  final db = await DBHelper.database();
+  await db.insert('day', {'DayName': 'Monday'});
+  await db.insert('day', {'DayName': 'Tuesday'});
+  await db.insert('day', {'DayName': 'Wednesday'});
+  await db.insert('day', {'DayName': 'Thursday'});
+  await db.insert('day', {'DayName': 'Friday'});
+  await db.insert('day', {'DayName': 'Saturday'});
+  await db.insert('day', {'DayName': 'Sunday'});
 }
