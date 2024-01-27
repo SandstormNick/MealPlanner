@@ -36,32 +36,3 @@ class AppNavigationBar extends ConsumerWidget {
     );
   }
 }
-
-
-//---------------------------------------------------------Temporary
-class Screen2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Meals Screen'),
-    );
-  }
-}
-
-class Screen3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Ingredients Screen'),
-    );
-  }
-}
-
-class Screen4 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Shopping List Screen'),
-    );
-  }
-}

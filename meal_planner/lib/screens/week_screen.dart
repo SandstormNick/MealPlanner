@@ -11,7 +11,7 @@ class WeekScreen extends ConsumerWidget {
       body: ListView.builder(
         itemCount: 7,
         itemBuilder: (BuildContext context, int index) {
-          return DayCard();
+          return const DayCard();
         },
       ),
     );
