@@ -27,6 +27,12 @@ class DBHelper {
     //Adding Seed data 
     await SeedData.seedDaysTableData(db);
     await SeedData.seedMealTimeTableData(db);
+    await SeedData.seedDayMealTimeTableData(db);
+  }
+
+  static Future<List<Map<String, dynamic>>> getData(String table) async {
+    final db = await DBHelper.database();
+    return db.query(table);
   }
 }
 
