@@ -2,11 +2,6 @@
 
 import 'package:sqflite/sqflite.dart';
 
-import '../helpers/db_helper.dart';
-
-import '../models/day_model.dart';
-import '../models/mealtime_model.dart';
-
 class SeedData {
   static Future<void> seedDaysTableData(Database db) async {
     await db.insert('day', {'DayName': 'Monday'});
@@ -25,38 +20,32 @@ class SeedData {
   }
 
   static Future<void> seedDayMealTimeTableData(Database db) async {
-    //First need seedDaysTableData and seedMealTimeTableData to have run so that we can get that juicy data
+    await db.insert('day_mealtime', {'DayId_FK': 1, 'MealTimeId_FK': 1});
+    await db.insert('day_mealtime', {'DayId_FK': 1, 'MealTimeId_FK': 2});
+    await db.insert('day_mealtime', {'DayId_FK': 1, 'MealTimeId_FK': 3});
 
-    final dayTableData = await DBHelper.getData('day');
-    dayTableData
-        .map(
-          (mapItem) => Day(
-            dayId: mapItem['DayId'],
-            dayName: mapItem['DayName'],
-          ),
-        )
-        .toList();
+    await db.insert('day_mealtime', {'DayId_FK': 2, 'MealTimeId_FK': 1});
+    await db.insert('day_mealtime', {'DayId_FK': 2, 'MealTimeId_FK': 2});
+    await db.insert('day_mealtime', {'DayId_FK': 2, 'MealTimeId_FK': 3});
 
-    final mealTimeTableData = await DBHelper.getData('mealtime');
-    mealTimeTableData
-        .map(
-          (mapItem) => MealTime(
-            mealTimeId: mapItem['MealTimeId'],
-            mealTimeName: mapItem['MealTimeName'],
-          ),
-        )
-        .toList();
+    await db.insert('day_mealtime', {'DayId_FK': 3, 'MealTimeId_FK': 1});
+    await db.insert('day_mealtime', {'DayId_FK': 3, 'MealTimeId_FK': 2});
+    await db.insert('day_mealtime', {'DayId_FK': 3, 'MealTimeId_FK': 3});
 
-    for (var day in dayTableData) {
-      for (var mealtime in mealTimeTableData) {
-        final dayId = day['DayId'];
-        final mealTimeId = mealtime['MealTimeId'];
+    await db.insert('day_mealtime', {'DayId_FK': 4, 'MealTimeId_FK': 1});
+    await db.insert('day_mealtime', {'DayId_FK': 4, 'MealTimeId_FK': 2});
+    await db.insert('day_mealtime', {'DayId_FK': 4, 'MealTimeId_FK': 3});
 
-        await db.insert('day_mealtime', {
-          'DayId_FK': dayId,
-          'MealTimeId_FK': mealTimeId,
-        });
-      }
-    }
+    await db.insert('day_mealtime', {'DayId_FK': 5, 'MealTimeId_FK': 1});
+    await db.insert('day_mealtime', {'DayId_FK': 5, 'MealTimeId_FK': 2});
+    await db.insert('day_mealtime', {'DayId_FK': 5, 'MealTimeId_FK': 3});
+
+    await db.insert('day_mealtime', {'DayId_FK': 6, 'MealTimeId_FK': 1});
+    await db.insert('day_mealtime', {'DayId_FK': 6, 'MealTimeId_FK': 2});
+    await db.insert('day_mealtime', {'DayId_FK': 6, 'MealTimeId_FK': 3});
+
+    await db.insert('day_mealtime', {'DayId_FK': 7, 'MealTimeId_FK': 1});
+    await db.insert('day_mealtime', {'DayId_FK': 7, 'MealTimeId_FK': 2});
+    await db.insert('day_mealtime', {'DayId_FK': 7, 'MealTimeId_FK': 3});
   }
 }
