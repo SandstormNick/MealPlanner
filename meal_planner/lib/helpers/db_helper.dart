@@ -2,6 +2,8 @@ import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqlite_api.dart';
 
+import '/helpers/seed_helper.dart';
+
 class DBHelper {
   static Future<Database> database() async {
     final dbPath = await sql.getDatabasesPath();
@@ -23,26 +25,8 @@ class DBHelper {
     await db.execute('CREATE TABLE mealtime_food(MealTimeFoodId INTEGER PRIMARY KEY, MealId_FK INTEGER, IngredientId_FK INTEGER, DayMealTimeId_FK, FOREIGN KEY (MealId_FK) REFERENCES meal(MealId), FOREIGN KEY (IngredientId_FK) REFERENCES ingredient(IngredientId), FOREIGN KEY (DayMealTimeId_FK) REFERENCES day_mealtime(DayMealTimeId))');
 
     //Adding Seed data 
-    _seedDaysTableData();
-    _seedMealTimeTableData();
+    await SeedData.seedDaysTableData(db);
+    await SeedData.seedMealTimeTableData(db);
   }
-}
-
-Future<void> _seedDaysTableData() async {
-  final db = await DBHelper.database();
-  await db.insert('day', {'DayName': 'Monday'});
-  await db.insert('day', {'DayName': 'Tuesday'});
-  await db.insert('day', {'DayName': 'Wednesday'});
-  await db.insert('day', {'DayName': 'Thursday'});
-  await db.insert('day', {'DayName': 'Friday'});
-  await db.insert('day', {'DayName': 'Saturday'});
-  await db.insert('day', {'DayName': 'Sunday'});
-}
-
-Future<void> _seedMealTimeTableData() async {
-  final db = await DBHelper.database();
-  await db.insert('mealtime', {'MealTimeName': 'Breakfast'});
-  await db.insert('mealtime', {'MealTimeName': 'Lunch'});
-  await db.insert('mealtime', {'MealTimeName': 'Dinner'});
 }
 
