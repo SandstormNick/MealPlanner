@@ -4,7 +4,7 @@ import '../helpers/db_helper.dart';
 
 import '../models/day_model.dart';  //should be able to remove
 import '../models/mealtime_model.dart';  //should be able to remove
-import '../models/day_mealtime_model.dart';  //should be able to remove
+import '../models/day_mealtime_model.dart';
 
 class DayMealTimeNotifier extends StateNotifier<List<DayMealTime>> {
   DayMealTimeNotifier(): super([]);
@@ -13,10 +13,23 @@ class DayMealTimeNotifier extends StateNotifier<List<DayMealTime>> {
 
   Future<void> fetchAndSetDayMealTimes() async {
     //final dataList = DBHelper.getData('')
+    //final dayTableData = await DBHelper
+    final dataList = await DBHelper.getDataRawQuery('dayMealtimeTableData');
+    state = dataList.map(
+          (mapItem) => DayMealTime(
+            dayMealTimeId: mapItem['DayMealTimeId'],
+            dayId: mapItem['DayId'],
+            dayName: mapItem['DayName'],
+            mealTimeId: mapItem['MealTimeId'],
+            mealTimeName: mapItem['MealTimeName']
+          ),
+        )
+        .toList();
   }
 
-  //Somma delete this when you're done 
+
   //But use it to try print the Day and MealTime and DayMealTime table records
+  //Remove this/ comment it out at some point
   void printItemsDebugMethod() async {
     final dayTableData = await DBHelper.getData('day');
     dayTableData
@@ -38,15 +51,15 @@ class DayMealTimeNotifier extends StateNotifier<List<DayMealTime>> {
         )
         .toList();
 
-    final day_mealTimeTableData = await DBHelper.getData('day_mealtime');
-    day_mealTimeTableData
+    final daymealTimeTableData = await DBHelper.getDataRawQuery('dayMealtimeTableData');
+    daymealTimeTableData
         .map(
           (mapItem) => DayMealTime(
             dayMealTimeId: mapItem['DayMealTimeId'],
-            dayId: mapItem['DayId_FK'],
-            dayName: '-',
-            mealTimeId: mapItem['MealTimeId_FK'],
-            mealTimeName: ''
+            dayId: mapItem['DayId'],
+            dayName: mapItem['DayName'],
+            mealTimeId: mapItem['MealTimeId'],
+            mealTimeName: mapItem['MealTimeName']
           ),
         )
         .toList();
@@ -71,14 +84,23 @@ class DayMealTimeNotifier extends StateNotifier<List<DayMealTime>> {
 
     print('--------------------');
 
-    for (var dayMealTime in day_mealTimeTableData) {
+    for (var dayMealTime in daymealTimeTableData) {
       final daymealtimeId = dayMealTime['DayMealTimeId'];
-      final dayIdFK = dayMealTime['DayId_FK'];
-      final mealtimeIdFk = dayMealTime['MealTimeId_FK'];
+      final dayIdFK = dayMealTime['DayId'];
+      final dayName = dayMealTime['DayName'];
+      final mealtimeIdFk = dayMealTime['MealTimeId'];
+      final mealtimeName = dayMealTime['MealTimeName'];
 
-      print("Day_MealTime: $daymealtimeId. DayId(FK): $dayIdFK. MealTimeId(FK): $mealtimeIdFk");
+      print("Day_MealTime: $daymealtimeId. Day: $dayIdFK - $dayName. MealTime: $mealtimeIdFk - $mealtimeName");
     }
   }
+
+  // TextButton(
+  //   onPressed: () {
+  //     ref.watch(dayMealTimeProvider.notifier).printItemsDebugMethod();
+  //   },
+  //   child: const Text('Print Items'),
+  // ),
 
 
 }
