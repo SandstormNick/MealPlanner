@@ -1,8 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/day_mealtime_model.dart';
+
 class DayCard extends ConsumerWidget {
-  const DayCard({Key? key}) : super(key: key);
+  final List<DayMealTime> dayMealTimeList;
+  String dayName = '';
+  String breakfast = '';
+  String lunch = '';
+  String dinner = '';
+
+  DayCard({
+    Key? key,
+    required this.dayMealTimeList,
+  }) : super(key: key) {
+    dayName = dayMealTimeList[0].dayName;
+
+    //This should be assigned in the for loop so we can check the id of the mealtime - and that way you can be assured what the dayMealTimeId is
+    breakfast = dayMealTimeList[0].mealTimeName;
+    lunch = dayMealTimeList[1].mealTimeName;
+    dinner = dayMealTimeList[2].mealTimeName;
+
+    // print('I am a new Day Card widget');
+
+    // for (var dayMealTimeObject in dayMealTimeList) {
+    //   print('DayMealTimeId: ${dayMealTimeObject.dayMealTimeId}');
+    //   print('DayId: ${dayMealTimeObject.dayId}');
+    //   print('DayName: ${dayMealTimeObject.dayName}');
+    // }
+
+    // print('---------------------------');
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -13,10 +41,13 @@ class DayCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RowItem("The <>day"),
-            RowItem("Row 2 Content"),
-            RowItem("Row 3 Content"),
-            RowItem("Row 4 Content"),
+            Text(dayName),
+            Text(breakfast),
+            Text(lunch),
+            Text(dinner),
+            //RowItem("Row 2 Content"),
+            //RowItem("Row 3 Content"),
+            //RowItem("Row 4 Content"),
           ],
         ),
       ),
@@ -24,6 +55,7 @@ class DayCard extends ConsumerWidget {
   }
 }
 
+//Change this name to MealRow
 class RowItem extends StatelessWidget {
   final String content;
 
