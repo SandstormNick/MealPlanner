@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/day_mealtime_model.dart';
 
+import './meal_row.dart';
+
+// ignore: must_be_immutable
 class DayCard extends ConsumerWidget {
   final List<DayMealTime> dayMealTimeList;
   String dayName = '';
@@ -45,6 +48,7 @@ class DayCard extends ConsumerWidget {
             Text(breakfast),
             Text(lunch),
             Text(dinner),
+            MealRow(),
             //RowItem("Row 2 Content"),
             //RowItem("Row 3 Content"),
             //RowItem("Row 4 Content"),
