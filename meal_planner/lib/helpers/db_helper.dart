@@ -36,6 +36,7 @@ class DBHelper {
     await SeedData.seedDaysTableData(db);
     await SeedData.seedMealTimeTableData(db);
     await SeedData.seedDayMealTimeTableData(db);
+    await SeedData.seedMealTableData(db); //This is temporary will I design the Meals screen
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {
@@ -43,8 +44,6 @@ class DBHelper {
     return db.query(table);
   }
 
-  //will need to change the method name as it is specific to getting data for - day_mealtime
-  //Or you can put the SQL string in a seperate file and call those somehow just to make the code a bit more modular
   static Future<List<Map<String, dynamic>>> getDataRawQuery(String queryName) async {
     final db = await DBHelper.database();
     return db.rawQuery(RawSQLQueryHelper.getSQLQueryString(queryName));

@@ -48,4 +48,12 @@ class SeedData {
     await db.insert('day_mealtime', {'DayId_FK': 7, 'MealTimeId_FK': 2});
     await db.insert('day_mealtime', {'DayId_FK': 7, 'MealTimeId_FK': 3});
   }
+
+  static Future<void> seedMealTableData(Database db) async {
+    await db.insert('meal', {'MealName': 'Chicken stir fry'});
+    await db.insert('meal', {'MealName': 'Beef stir fry'});
+    await db.insert('meal', {'MealName': 'Chicken salad'});
+    await db.insert('meal', {'MealName': 'Tuna salad'});
+    await db.insert('meal', {'MealName': 'Yoghurt @ work'});
+  }
 }

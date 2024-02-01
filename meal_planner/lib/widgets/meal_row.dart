@@ -18,16 +18,16 @@ class MealRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
-        Container(
+        SizedBox(
           width: 70,
           child: Text(mealTimeName),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),  //maybe change this at some point
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),  //maybe change this at some point
         const Expanded(
             child: SizedBox(
           height: 50,
