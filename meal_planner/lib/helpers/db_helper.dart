@@ -44,6 +44,16 @@ class DBHelper {
     return db.query(table);
   }
 
+  static Future<List<Map<String, dynamic>>> getDataNotDeleted(
+      String table, String whereClause) async {
+    final db = await DBHelper.database();
+
+    return db.query(
+      table,
+      where: whereClause,
+    );
+  }
+
   static Future<List<Map<String, dynamic>>> getDataRawQuery(String queryName) async {
     final db = await DBHelper.database();
     return db.rawQuery(RawSQLQueryHelper.getSQLQueryString(queryName));
