@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MealRow extends ConsumerWidget {
-
   final int dayMealTimeId;
   final String mealTimeName;
 
@@ -19,7 +18,10 @@ class MealRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
-        Text(mealTimeName),
+        Container(
+          width: 70,
+          child: Text(mealTimeName),
+        ),
         SizedBox(width: 8),
         IconButton(
           onPressed: () {},
@@ -38,27 +40,6 @@ class MealRow extends ConsumerWidget {
                 ),
                 Text(
                   'Meal 2',
-                ),
-                Text(
-                  'Meal 3',
-                ),
-                Text(
-                  'Meal 4',
-                ),
-                Text(
-                  'Meal 5',
-                ),
-                Text(
-                  'Meal 6',
-                ),
-                Text(
-                  'Meal 7',
-                ),
-                Text(
-                  'Meal 8',
-                ),
-                Text(
-                  'Meal 9',
                 ),
               ],
             ),
