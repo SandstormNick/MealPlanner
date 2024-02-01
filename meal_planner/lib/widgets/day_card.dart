@@ -40,6 +40,7 @@ class DayCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(dayName),
             for (var dayMealTime in dayMealTimeList)
               MealRow(
                 dayMealTimeId: dayMealTime.dayMealTimeId,
