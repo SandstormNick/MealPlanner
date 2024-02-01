@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MealRow extends ConsumerWidget {
-  //Will need to pass in the following: 
-  //This will need the mealtime
-  //The DayMealTimeId
+
+  final int dayMealTimeId;
+  final String mealTimeName;
 
   MealRow({
     Key? key,
-  }) : super(key: key);
+    required this.dayMealTimeId,
+    required this.mealTimeName,
+  }) : super(key: key) {
+    // print(dayMealTimeId);
+    // print(mealTimeName);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
-        const Text('The meal'),
+        Text(mealTimeName),
         SizedBox(width: 8),
         IconButton(
           onPressed: () {},
