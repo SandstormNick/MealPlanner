@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/meal_provider.dart';
 
+import '../widgets/label_card.dart';
+
 class MealsScreen extends ConsumerWidget {
   const MealsScreen({Key? key}) : super(key: key);
 
@@ -11,26 +13,35 @@ class MealsScreen extends ConsumerWidget {
     return Scaffold(
       body: FutureBuilder(
         future: ref.read(mealProvider.notifier).fetchAndSetMeals(),
-        builder: (context, snapshot) => snapshot.connectionState ==
-                ConnectionState.waiting
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Consumer(
-                child: const Center(
-                  child: Text('Add Meals'),
-                ),
-                builder: (context, ref, child) =>
-                    ref.watch(mealProvider).isEmpty
-                        ? child!
-                        : ListView.builder(
-                            itemCount: 5,
-                            itemBuilder: (BuildContext context, int index) {
-                              return const Text('Hello World');
-                            },
-                          ),
-              ),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Consumer(
+                    child: const Center(
+                      child: Text('Add Meals'),
+                    ),
+                    builder: (context, ref, child) =>
+                        ref.watch(mealProvider).isEmpty
+                            ? child!
+                            : ListView.builder(
+                                itemCount: ref.watch(mealProvider).length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final meal =
+                                      ref.watch(mealProvider).elementAt(index);
+                                    
+                                  return LabelCard(
+                                    meal: meal,
+                                  );
+                                },
+                              ),
+                  ),
       ),
     );
   }
 }
+
+//You could maybe add a property onto the Meal class that sets the first meal in a particular letter to a true boolean
+//if (meal.isFirst) {return const Text('A');}
+//But then return the letter divider card plus the labelCard...

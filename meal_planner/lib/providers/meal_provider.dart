@@ -7,8 +7,12 @@ class MealNotifier extends StateNotifier<List<Meal>> {
   MealNotifier() : super([]);
 
   Future<void> fetchAndSetMeals() async {
-    final mealsList =
+    final mealsDataList =
         await DBHelper.getDataNotDeleted('meal', 'IsDeleted = 0');
+
+    List<Map<String, dynamic>> mealsList = List.from(mealsDataList);
+    mealsList.sort((a, b) => a['MealName'].compareTo(b['MealName']));
+    
     state = mealsList
         .map(
           (mapItem) => Meal(
@@ -17,6 +21,33 @@ class MealNotifier extends StateNotifier<List<Meal>> {
           ),
         )
         .toList();
+  }
+
+  void printItemsDebugMethod() async { 
+    final mealsDataList =
+        await DBHelper.getDataNotDeleted('meal', 'IsDeleted = 0');
+
+    List<Map<String, dynamic>> mealsList = List.from(mealsDataList);
+    
+    mealsList.sort((a, b) => a['MealName'].compareTo(b['MealName']));
+
+    mealsList
+        .map(
+          (mapItem) => Meal(
+            mealId: mapItem['MealId'],
+            mealName: mapItem['MealName'],
+          ),
+        )
+        .toList();
+
+    for (var meal in mealsList) {
+      final mealId = meal['MealId'];
+      final mealName = meal['MealName'];
+
+      print ("MealId: $mealId");
+      print("MealName: $mealName");
+      print("------------");
+    }
   }
 }
 
