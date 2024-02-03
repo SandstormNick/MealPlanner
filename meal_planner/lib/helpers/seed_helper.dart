@@ -56,4 +56,22 @@ class SeedData {
     await db.insert('meal', {'MealName': 'Tuna salad'});
     await db.insert('meal', {'MealName': 'Yoghurt @ work'});
   }
+
+  static Future<void> seedIngredientTableData(Database db) async {
+    await db.insert('ingredient', {'IngredientName': 'Apples'});
+    await db.insert('ingredient', {'IngredientName': 'Tuna'});
+    await db.insert('ingredient', {'IngredientName': 'Chicken'});
+    await db.insert('ingredient', {'IngredientName': 'Stir fry veg'});
+    await db.insert('ingredient', {'IngredientName': 'Eggs'});
+    await db.insert('ingredient', {'IngredientName': 'Pasta'});
+    await db.insert('ingredient', {'IngredientName': 'Pasta sauce'});
+    await db.insert('ingredient', {'IngredientName': 'Butter chicken sauce'});
+    await db.insert('ingredient', {'IngredientName': 'Cheese'});
+    await db.insert('ingredient', {'IngredientName': 'Provitas'});
+    await db.insert('ingredient', {'IngredientName': 'Avos'});
+    await db.insert('ingredient', {'IngredientName': 'Milk'});
+    await db.insert('ingredient', {'IngredientName': 'Steak'});
+    await db.insert('ingredient', {'IngredientName': 'Real soup'});
+    await db.insert('ingredient', {'IngredientName': 'Frozen Veg'});
+  }
 }
