@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/meal_provider.dart';
 
-import '../widgets/label_card.dart';
+import '../widgets/meal_label_card.dart';
 
 class MealsScreen extends ConsumerWidget {
   const MealsScreen({Key? key}) : super(key: key);
