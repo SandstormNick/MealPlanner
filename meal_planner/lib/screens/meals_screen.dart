@@ -13,30 +13,41 @@ class MealsScreen extends ConsumerWidget {
     return Scaffold(
       body: FutureBuilder(
         future: ref.read(mealProvider.notifier).fetchAndSetMeals(),
-        builder: (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Consumer(
-                    child: const Center(
-                      child: Text('Add Meals'),
-                    ),
-                    builder: (context, ref, child) =>
-                        ref.watch(mealProvider).isEmpty
-                            ? child!
-                            : ListView.builder(
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Consumer(
+                child: const Center(
+                  child: Text('Add Meals'),
+                ),
+                builder: (context, ref, child) =>
+                    ref.watch(mealProvider).isEmpty
+                        ? child!
+                        : Column(children: [
+                            Expanded(
+                              child: ListView.builder(
                                 itemCount: ref.watch(mealProvider).length,
                                 itemBuilder: (BuildContext context, int index) {
                                   final meal =
                                       ref.watch(mealProvider).elementAt(index);
-                                    
+
                                   return LabelCard(
                                     meal: meal,
                                   );
                                 },
                               ),
-                  ),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Text('Add Meal'),
+                              ),
+                            ),
+                          ]),
+              ),
       ),
     );
   }
