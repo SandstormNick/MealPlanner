@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import './week_widgets/add_food_to_mealtime_form.dart';
+
 class MealRow extends ConsumerWidget {
   final int dayMealTimeId;
   final String mealTimeName;
@@ -22,12 +24,19 @@ class MealRow extends ConsumerWidget {
           width: 70,
           child: Text(mealTimeName),
         ),
-        const SizedBox(width: 8),  //maybe change this at some point
+        const SizedBox(width: 8), //maybe change this at some point
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return const AddFoodToMealTimeForm();
+              },
+            );
+          },
           icon: const Icon(Icons.add),
         ),
-        const SizedBox(width: 8),  //maybe change this at some point
+        const SizedBox(width: 8), //maybe change this at some point
         const Expanded(
             child: SizedBox(
           height: 50,
