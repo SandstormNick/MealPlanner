@@ -28,6 +28,13 @@ class MealRow extends ConsumerWidget {
         IconButton(
           onPressed: () {
             showModalBottomSheet(
+              // backgroundColor: Colors.transparent,
+               isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+              ),
               context: context,
               builder: (BuildContext context) {
                 return const AddFoodToMealTimeForm();
