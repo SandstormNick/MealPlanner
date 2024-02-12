@@ -15,6 +15,7 @@ class AddFoodToMealTimeForm extends ConsumerStatefulWidget {
 
 class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
   final _formKey = GlobalKey<FormState>();
+  String _selectedCategory = 'meals'; // Default selection
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,32 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('The Add Form'),
+            Text('The Add Form'), //Day and Meal time will go here
+            Row(
+              children: [
+                Radio(
+                  value: 'meals',
+                  groupValue: _selectedCategory,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedCategory = value.toString();
+                    });
+                  },
+                ),
+                Text('Meals'),
+                Radio(
+                  value: 'ingredients',
+                  groupValue: _selectedCategory,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedCategory = value.toString();
+                    });
+                  },
+                ),
+                Text('Ingredients'),
+              ],
+            ),
+            //_selectedCategory == 'meals' ? DropdownButton(items: items, onChanged: onChanged)
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
