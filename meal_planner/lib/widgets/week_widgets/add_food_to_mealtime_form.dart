@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/day_mealtime_model.dart';
+
+import 'package:meal_planner/providers/day_mealtime_provider.dart';
+
 class AddFoodToMealTimeForm extends ConsumerStatefulWidget {
-  //pass in the daymealtimeId
+  final int dayMealTimeId;
 
   //Use this to run a custom query to get the Day and Mealtime Names
 
-  const AddFoodToMealTimeForm({Key? key}) : super(key: key);
+  const AddFoodToMealTimeForm({
+    Key? key,
+    required this.dayMealTimeId,
+  }) : super(key: key);
 
   @override
   ConsumerState<AddFoodToMealTimeForm> createState() =>
@@ -19,6 +26,10 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
 
   @override
   Widget build(BuildContext context) {
+    DayMealTime dayMealTime = ref
+        .watch(dayMealTimeProvider.notifier)
+        .getDayMealTimeById(widget.dayMealTimeId);
+
     return Form(
       key: _formKey,
       child: Container(
@@ -27,7 +38,7 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('The Add Form'), //Day and Meal time will go here
+            Text('${dayMealTime.dayName} - ${dayMealTime.mealTimeName}'),
             Row(
               children: [
                 Radio(

@@ -9,11 +9,7 @@ import '../models/day_mealtime_model.dart';
 class DayMealTimeNotifier extends StateNotifier<List<DayMealTime>> {
   DayMealTimeNotifier(): super([]);
 
-  //method to fetch - don't need the ability to add or update DayMealTime
-
   Future<void> fetchAndSetDayMealTimes() async {
-    //final dataList = DBHelper.getData('')
-    //final dayTableData = await DBHelper
     final dataList = await DBHelper.getDataRawQuery('dayMealtimeTableData');
     state = dataList.map(
           (mapItem) => DayMealTime(
@@ -25,6 +21,10 @@ class DayMealTimeNotifier extends StateNotifier<List<DayMealTime>> {
           ),
         )
         .toList();
+  }
+  
+  DayMealTime getDayMealTimeById(int dayMealTimeId) {
+    return state.firstWhere((dayMealTime) => dayMealTime.dayMealTimeId == dayMealTimeId);
   }
 
 
