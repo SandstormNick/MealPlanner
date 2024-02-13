@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/day_mealtime_model.dart';
+import '../../models/meal_model.dart';
 
 import 'package:meal_planner/providers/day_mealtime_provider.dart';
+import '../../providers/meal_provider.dart';
 
 class AddFoodToMealTimeForm extends ConsumerStatefulWidget {
   final int dayMealTimeId;
@@ -29,6 +31,8 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
     DayMealTime dayMealTime = ref
         .watch(dayMealTimeProvider.notifier)
         .getDayMealTimeById(widget.dayMealTimeId);
+
+    List<Meal> meals = ref.watch(mealProvider.notifier).getAllMeals();
 
     return Form(
       key: _formKey,
@@ -63,7 +67,23 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
                 Text('Ingredients'),
               ],
             ),
-            //_selectedCategory == 'meals' ? DropdownButton(items: items, onChanged: onChanged)
+            _selectedCategory == 'meals'
+                ? DropdownButton<Meal>(
+                    items: meals.map((meal) {
+                      return DropdownMenuItem<Meal>(
+                        value: meal,
+                        child: Text(meal.mealName),
+                      );
+                    }).toList(),
+                    onChanged: (_) {})
+                : DropdownButton<Meal>(
+                    items: meals.map((meal) {
+                      return DropdownMenuItem<Meal>(
+                        value: meal,
+                        child: Text(meal.mealName),
+                      );
+                    }).toList(),
+                    onChanged: (_) {}),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
