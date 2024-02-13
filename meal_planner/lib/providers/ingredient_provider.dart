@@ -7,22 +7,29 @@ class IngredientNotifier extends StateNotifier<List<Ingredient>> {
   IngredientNotifier() : super([]);
 
   Future<void> fetchAndSetIngredients() async {
-    final ingredientDataList =
+    if (state.isEmpty) {
+      final ingredientDataList =
         await DBHelper.getDataNotDeleted('ingredient', 'IsDeleted = 0');
 
-    List<Map<String, dynamic>> ingredientsList = List.from(ingredientDataList);
-    ingredientsList
-        .sort((a, b) => a['IngredientName'].compareTo(b['IngredientName']));
+      List<Map<String, dynamic>> ingredientsList = List.from(ingredientDataList);
+      ingredientsList
+          .sort((a, b) => a['IngredientName'].compareTo(b['IngredientName']));
 
-    state = ingredientsList
-        .map(
-          (mapItem) => Ingredient(
-            ingredientId: mapItem['IngredientId'],
-            ingredientName: mapItem['IngredientName'],
-          ),
-        )
-        .toList();
+      state = ingredientsList
+          .map(
+            (mapItem) => Ingredient(
+              ingredientId: mapItem['IngredientId'],
+              ingredientName: mapItem['IngredientName'],
+            ),
+          )
+          .toList();
+      }
+    }
+
+    List<Ingredient> getAllIngredients() {
+      return state;
   }
+
 }
 
 final ingredientProvider =
