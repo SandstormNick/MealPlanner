@@ -65,4 +65,13 @@ class DBHelper {
     String sqlQuery = queryName + whereClause;
     return db.rawQuery(sqlQuery);
   }
+
+  static Future<void> insert(String table, Map<String, Object> data) async {
+    final db = await DBHelper.database();
+    db.insert(
+      table,
+      data,
+      conflictAlgorithm: sql.ConflictAlgorithm.replace,
+    );
+  }
 }
