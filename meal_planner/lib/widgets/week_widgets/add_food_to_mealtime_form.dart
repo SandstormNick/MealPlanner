@@ -121,6 +121,15 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
                 child: const Text('ADD'),
               ),
             ),
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       ref.watch(mealtimeFoodProvider.notifier).printItemsDebugMethod();
+            //     },
+            //     child: const Text('PRINT'),
+            //   ),
+            // ),
           ],
         ),
       ),
