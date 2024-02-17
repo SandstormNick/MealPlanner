@@ -7,19 +7,14 @@ class RawSQLQueryHelper{
 
   static const String dayMealtimeTableDataById = 'SELECT dmt.DayMealTimeId, d.DayId, d.DayName, mt.MealTimeId, mt.MealTimeName FROM day_mealtime dmt JOIN day d ON dmt.DayId_FK = d.DayId JOIN mealtime mt ON dmt.MealTimeId_FK = mt.MealTimeId WHERE dmt.DayMealTimeId = ';
 
-  //The Raw SQL query needed to fetch from MealTimeFood table
-  //The MealTimeFoodId --Done
-  //The DayMealTimeID (FK) but don't need to join for this
-  //IsDeleted
-  //MealId (FK)
-  //Meal name (need to join for this)
-  //IngredientId (FK)
-  //Ingredient name (need to join for this)
+  static const String mealtimeFoodTableData = 'SELECT mtf.MealTimeFoodId, mtf.DayMealTimeId_FK, mtf.IsDeleted, m.MealId, m.MealName, i.IngredientId, i.IngredientName FROM mealtime_food mtf JOIN meal m ON mtf.MealId_FK = m.MealId JOIN ingredient i ON mtf.IngredientId_FK = i.IngredientId';
 
   static String getSQLQueryString(String queryName) {
     switch(queryName){
       case 'dayMealtimeTableData':
         return dayMealtimeTableData;
+      case 'mealtimeFoodTableData':
+        return mealtimeFoodTableData;
       default:
         return '';
     }
