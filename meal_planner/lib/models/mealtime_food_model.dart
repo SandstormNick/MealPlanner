@@ -1,5 +1,5 @@
 class MealTimeFood {
-  int mealTimeFoodId;
+  int? mealTimeFoodId;
 
   int dayMealTimeId; //FK
 
@@ -12,10 +12,12 @@ class MealTimeFood {
   bool isDeleted;
 
   MealTimeFood({
-    required this.mealTimeFoodId,
+    this.mealTimeFoodId,
     required this.dayMealTimeId,
-    this.mealName = "",
-    this.ingredientName = "",
+    this.mealId,
+    this.mealName = '',
+    this.ingredientId,
+    this.ingredientName = '',
     this.isDeleted = false
   });
 }
