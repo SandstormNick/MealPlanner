@@ -48,7 +48,7 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
       if (_foodItemId != 0) {
         ref
             .watch(mealtimeFoodProvider.notifier)
-            .addFoodItem(dayMealTime.dayId, _foodItemId, _isMeal);
+            .addFoodItem(dayMealTime.dayMealTimeId, _foodItemId, _isMeal);
       }
     }
 
@@ -115,7 +115,9 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  save();
+                },
                 child: const Text('ADD'),
               ),
             ),

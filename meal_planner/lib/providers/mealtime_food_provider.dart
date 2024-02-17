@@ -15,8 +15,8 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
     );
 
     await DBHelper.insert('mealtime_food', {
-      'MealId_FK': isMeal ? foodItemId : Null,
-      'IngredientId_FK' : !isMeal ? foodItemId : Null,
+      'MealId_FK': isMeal ? foodItemId : -1,
+      'IngredientId_FK' : !isMeal ? foodItemId : -1,
       'DayMealTimeId_FK': mealtimeFoodItem.dayMealTimeId,
       'IsDeleted': 0
     });
