@@ -5,9 +5,10 @@ import 'package:meal_planner/models/ingredient_model.dart';
 import '../../models/day_mealtime_model.dart';
 import '../../models/meal_model.dart';
 
-import 'package:meal_planner/providers/day_mealtime_provider.dart';
+import '../../providers/day_mealtime_provider.dart';
 import '../../providers/meal_provider.dart';
 import '../../providers/ingredient_provider.dart';
+import '../../providers/mealtime_food_provider.dart';
 
 class AddFoodToMealTimeForm extends ConsumerStatefulWidget {
   final int dayMealTimeId;
@@ -26,7 +27,8 @@ class AddFoodToMealTimeForm extends ConsumerStatefulWidget {
 
 class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
   final _formKey = GlobalKey<FormState>();
-  String _selectedCategory = 'meals'; // Default selection
+  bool _isMeal = true; // Default selection
+  int _foodItemId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +37,26 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
         .getDayMealTimeById(widget.dayMealTimeId);
 
     List<Meal> meals = ref.watch(mealProvider.notifier).getAllMeals();
-    List<Ingredient> ingredients = ref.watch(ingredientProvider.notifier).getAllIngredients();
+    List<Ingredient> ingredients =
+        ref.watch(ingredientProvider.notifier).getAllIngredients();
+
+    void setFoodItemId(int itemId) {
+      _foodItemId = itemId;
+    }
+
+    Future<void> save() async {
+      if (_foodItemId != 0) {
+        ref
+            .watch(mealtimeFoodProvider.notifier)
+            .addFoodItem(dayMealTime.dayId, _foodItemId, _isMeal);
+      }
+    }
 
     return Form(
       key: _formKey,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -49,28 +64,28 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
             Row(
               children: [
                 Radio(
-                  value: 'meals',
-                  groupValue: _selectedCategory,
+                  value: true,
+                  groupValue: _isMeal,
                   onChanged: (value) {
                     setState(() {
-                      _selectedCategory = value.toString();
+                      _isMeal = value!;
                     });
                   },
                 ),
-                Text('Meals'),
+                const Text('Meals'),
                 Radio(
-                  value: 'ingredients',
-                  groupValue: _selectedCategory,
+                  value: false,
+                  groupValue: _isMeal,
                   onChanged: (value) {
                     setState(() {
-                      _selectedCategory = value.toString();
+                      _isMeal = value!;
                     });
                   },
                 ),
-                Text('Ingredients'),
+                const Text('Ingredients'),
               ],
             ),
-            _selectedCategory == 'meals'
+            _isMeal == true
                 ? DropdownButton<Meal>(
                     items: meals.map((meal) {
                       return DropdownMenuItem<Meal>(
@@ -78,7 +93,12 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
                         child: Text(meal.mealName),
                       );
                     }).toList(),
-                    onChanged: (_) {})
+                    onChanged: (selectedMeal) {
+                      if (selectedMeal != null) {
+                        setFoodItemId(selectedMeal.mealId);
+                      }
+                    },
+                  )
                 : DropdownButton<Ingredient>(
                     items: ingredients.map((ingredient) {
                       return DropdownMenuItem<Ingredient>(
@@ -86,12 +106,17 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
                         child: Text(ingredient.ingredientName),
                       );
                     }).toList(),
-                    onChanged: (_) {}),
+                    onChanged: (selectedIngredient) {
+                      if (selectedIngredient != null) {
+                        setFoodItemId(selectedIngredient.ingredientId);
+                      }
+                    },
+                  ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {},
-                child: Text('ADD'),
+                child: const Text('ADD'),
               ),
             ),
           ],
