@@ -9,7 +9,7 @@ class IngredientNotifier extends StateNotifier<List<Ingredient>> {
   Future<void> fetchAndSetIngredients() async {
     if (state.isEmpty) {
       final ingredientDataList =
-        await DBHelper.getDataNotDeleted('ingredient', 'IsDeleted = 0');
+        await DBHelper.getDataNotDeleted('ingredient', 'IsDeleted = 0 AND IngredientName != "None"');
 
       List<Map<String, dynamic>> ingredientsList = List.from(ingredientDataList);
       ingredientsList

@@ -7,9 +7,10 @@ class MealNotifier extends StateNotifier<List<Meal>> {
   MealNotifier() : super([]);
 
   Future<void> fetchAndSetMeals() async {
+
     if (state.isEmpty) {
       final mealsDataList =
-          await DBHelper.getDataNotDeleted('meal', 'IsDeleted = 0');
+          await DBHelper.getDataNotDeleted('meal', 'IsDeleted = 0 AND MealName != "None"');
 
       List<Map<String, dynamic>> mealsList = List.from(mealsDataList);
       mealsList.sort((a, b) => a['MealName'].compareTo(b['MealName']));
