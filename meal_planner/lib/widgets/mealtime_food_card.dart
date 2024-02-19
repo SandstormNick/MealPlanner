@@ -6,10 +6,18 @@ import '../models/mealtime_food_model.dart';
 class MealTimeFoodCard extends ConsumerWidget {
   final MealTimeFood mealTimeFood;
 
-  MealTimeFoodCard({
+  const MealTimeFoodCard({
     Key? key,
     required this.mealTimeFood,
   }) : super(key: key);
+
+  String getMealTimeFoodName() {
+    if (mealTimeFood.mealId != -1) {
+      return mealTimeFood.mealName;
+    } else {
+      return mealTimeFood.ingredientName;
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,7 +25,7 @@ class MealTimeFoodCard extends ConsumerWidget {
       elevation: 3,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(mealTimeFood.mealName),
+        child: Text(getMealTimeFoodName()),
       ),
     );
   }
