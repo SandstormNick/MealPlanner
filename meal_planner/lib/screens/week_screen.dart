@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/day_mealtime_provider.dart';
 import '../providers/meal_provider.dart';
 import '../providers/ingredient_provider.dart';
+import '../providers/mealtime_food_provider.dart';
 
 import '../widgets/day_card.dart';
 
@@ -16,6 +17,7 @@ class WeekScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(mealProvider.notifier).fetchAndSetMeals();
     ref.watch(ingredientProvider.notifier).fetchAndSetIngredients();
+    ref.watch(mealtimeFoodProvider.notifier).fetchAndSetMealTimeFoods();
 
     return Scaffold(
       body: FutureBuilder(

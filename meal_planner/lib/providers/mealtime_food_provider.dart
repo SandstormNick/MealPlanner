@@ -29,11 +29,32 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
     state = [...state];
   }
 
+  Future<void> fetchAndSetMealTimeFoods() async {
+    if (state.isEmpty) {
+      final mealtimeFoodDataList =
+          await DBHelper.getDataRawQuery('mealtimeFoodTableData');
+
+      state = mealtimeFoodDataList
+        .map(
+          (mapItem) => MealTimeFood(
+            mealTimeFoodId: mapItem['MealTimeFoodId'],
+            dayMealTimeId: mapItem['DayMealTimeId_FK'],
+            mealId: mapItem['MealId'],
+            mealName: mapItem['MealName'],
+            ingredientId: mapItem['IngredientId'],
+            ingredientName: mapItem['IngredientName'],
+            isDeleted: mapItem['IsDeleted'] == 0 ? false : true,
+          ),
+        )
+        .toList();
+    }
+  }
+
   //But use it to try print the mealtime_food table records
   //Remove this/ comment it out at some point
   void printItemsDebugMethod() async {
-    final List<Map<String, dynamic>> rawData =
-        await DBHelper.getData('mealtime_food');
+    // final List<Map<String, dynamic>> rawData =
+    //     await DBHelper.getData('mealtime_food');
 
     final mealtimeFoodData =
         await DBHelper.getDataRawQuery('mealtimeFoodTableData');
@@ -66,6 +87,7 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
       print("DayMealTimeId: $dayMealTimeId");
       print("Meal: $mealId - $mealName");
       print("Ingredient: $ingredientId - $ingredientName");
+      print("----------------------------------");
     }
   }
 }
