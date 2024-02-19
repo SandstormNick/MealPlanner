@@ -50,6 +50,14 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
     }
   }
 
+  List<MealTimeFood> getMealTimeFoodForDayMealTime(int dayMealTimeId) {
+    List<MealTimeFood> mealTimeFoods = state
+        .where((mealTimeFood) => mealTimeFood.dayMealTimeId == dayMealTimeId)
+        .toList();
+
+    return mealTimeFoods;
+  }
+
   //But use it to try print the mealtime_food table records
   //Remove this/ comment it out at some point
   void printItemsDebugMethod() async {

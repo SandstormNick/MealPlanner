@@ -3,6 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import './week_widgets/add_food_to_mealtime_form.dart';
 
+import '../models/mealtime_food_model.dart';
+
+import '../providers/mealtime_food_provider.dart';
+
 class MealRow extends ConsumerWidget {
   final int dayMealTimeId;
   final String mealTimeName;
@@ -18,6 +22,10 @@ class MealRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    List<MealTimeFood> mealtimeFoodItems = ref
+        .watch(mealtimeFoodProvider.notifier)
+        .getMealTimeFoodForDayMealTime(dayMealTimeId);
+
     return Row(
       children: [
         SizedBox(
@@ -50,6 +58,8 @@ class MealRow extends ConsumerWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
+                //Create a new widget for the mealtimeFoodItem in mealtimeFoodItems. A card or something like that.
+                //Use a for loop to display them in the Row
                 Text(
                   'Meal 1',
                 ),
