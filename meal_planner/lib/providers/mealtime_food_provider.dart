@@ -10,12 +10,15 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
   Future<void> addFoodItem(
     int dayMealTimeId,
     int foodItemId,
+    String foodItemName,
     bool isMeal,
   ) async {
     final mealtimeFoodItem = MealTimeFood(
       dayMealTimeId: dayMealTimeId,
       mealId: isMeal ? foodItemId : null,
+      mealName: isMeal ? foodItemName : '',
       ingredientId: !isMeal ? foodItemId : null,
+      ingredientName: !isMeal ? foodItemName : '',
     );
 
     await DBHelper.insert('mealtime_food', {

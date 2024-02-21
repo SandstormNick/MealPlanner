@@ -29,6 +29,7 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
   final _formKey = GlobalKey<FormState>();
   bool _isMeal = true; // Default selection
   int _foodItemId = 0;
+  String _foodItemName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +45,15 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
       _foodItemId = itemId;
     }
 
+    void setFoodItemName(String itemName) {
+      _foodItemName = itemName;
+    }
+
     Future<void> save() async {
       if (_foodItemId != 0) {
         ref
             .watch(mealtimeFoodProvider.notifier)
-            .addFoodItem(dayMealTime.dayMealTimeId, _foodItemId, _isMeal);
+            .addFoodItem(dayMealTime.dayMealTimeId, _foodItemId, _foodItemName, _isMeal);
       }
     }
 
@@ -96,6 +101,7 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
                     onChanged: (selectedMeal) {
                       if (selectedMeal != null) {
                         setFoodItemId(selectedMeal.mealId);
+                        setFoodItemName(selectedMeal.mealName);
                       }
                     },
                   )
@@ -109,6 +115,7 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
                     onChanged: (selectedIngredient) {
                       if (selectedIngredient != null) {
                         setFoodItemId(selectedIngredient.ingredientId);
+                        setFoodItemName(selectedIngredient.ingredientName);
                       }
                     },
                   ),
