@@ -54,7 +54,7 @@ class MealsScreen extends ConsumerWidget {
                                   final meal =
                                       ref.watch(mealProvider).elementAt(index);
 
-                                  return LabelCard(
+                                  return MealLabelCard(
                                     meal: meal,
                                   );
                                 },

@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/meal_model.dart';
 
-class LabelCard extends ConsumerWidget {
+class MealLabelCard extends ConsumerWidget {
   final Meal meal;
 
-  const LabelCard({
+  const MealLabelCard({
     Key? key,
     required this.meal,
   }) : super(key: key);
