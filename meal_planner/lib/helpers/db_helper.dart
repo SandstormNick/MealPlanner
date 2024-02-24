@@ -89,4 +89,14 @@ class DBHelper {
 
     return insertedId;
   }
+
+  static Future<void> update(
+    String table,
+    Map<String, Object> data,
+    String whereClause,
+    int? filterId,
+  ) async {
+    final db = await DBHelper.database();
+    db.update(table, data, where: whereClause, whereArgs: [filterId]);
+  }
 }
