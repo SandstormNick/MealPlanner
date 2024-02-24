@@ -34,7 +34,9 @@ class MealsScreen extends ConsumerWidget {
                           showModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return const EditMealForm();
+                              return const EditMealForm(
+                                isAdding: true,
+                              );
                             },
                           );
                         },
@@ -67,7 +69,9 @@ class MealsScreen extends ConsumerWidget {
                                   showModalBottomSheet(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return const EditMealForm();
+                                      return const EditMealForm(
+                                        isAdding: true,
+                                      );
                                     },
                                   );
                                 },

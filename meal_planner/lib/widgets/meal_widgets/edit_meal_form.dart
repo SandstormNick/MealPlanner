@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/meal_model.dart';
+
 import '../../providers/meal_provider.dart';
 
 import '../alert_dialog.dart';
 
 class EditMealForm extends ConsumerStatefulWidget {
-  const EditMealForm({super.key});
+  final bool isAdding;
+  final Meal? meal;
+
+  const EditMealForm({
+    Key? key,
+    required this.isAdding,
+    this.meal,
+  }) : super(key: key);
 
   @override
   ConsumerState<EditMealForm> createState() => _EditMealFormState();
@@ -46,6 +55,15 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    if (!widget.isAdding){
+      _mealNameController.text = widget.meal!.mealName;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
@@ -54,7 +72,7 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const Text('Add Meal'),
+            widget.isAdding ? const Text('Add Meal') : Text('Edit ${widget.meal!.mealName}'),
             TextFormField(
               controller: _mealNameController,
               decoration: const InputDecoration(labelText: 'Meal Name'),
