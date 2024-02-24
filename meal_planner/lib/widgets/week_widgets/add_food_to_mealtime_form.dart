@@ -63,7 +63,6 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
             Text('${dayMealTime.dayName} - ${dayMealTime.mealTimeName}'),
             Row(

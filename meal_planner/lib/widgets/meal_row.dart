@@ -37,12 +37,6 @@ class MealRow extends ConsumerWidget {
         IconButton(
           onPressed: () {
             showModalBottomSheet(
-              isScrollControlled: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
               context: context,
               builder: (BuildContext context) {
                 return AddFoodToMealTimeForm(dayMealTimeId: dayMealTimeId);
