@@ -1,16 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meal_planner/helpers/db_helper.dart';
 
-import '../models/meal_model.dart'; //should be able to remove
+import '../models/meal_model.dart';
 
 class MealNotifier extends StateNotifier<List<Meal>> {
   MealNotifier() : super([]);
 
-  Future<void> fetchAndSetMeals() async {
+  Future<void> addMeal(String mealName) async {
+    final newMeal = Meal(mealName: mealName);
 
+    final int insertedId = await DBHelper.insertReturnId('meal', {
+      'MealName': newMeal.mealName,
+      'IsDeleted': 0,
+    });
+
+    newMeal.mealId = insertedId;
+
+    state.add(newMeal);
+  }
+
+  bool checkIfMealExists(String newMealName) {
+    return state.any((meal) => meal.mealName == newMealName);
+  }
+
+  Future<void> fetchAndSetMeals() async {
     if (state.isEmpty) {
-      final mealsDataList =
-          await DBHelper.getDataNotDeleted('meal', 'IsDeleted = 0 AND MealName != "None"');
+      final mealsDataList = await DBHelper.getDataNotDeleted(
+          'meal', 'IsDeleted = 0 AND MealName != "None"');
 
       List<Map<String, dynamic>> mealsList = List.from(mealsDataList);
       mealsList.sort((a, b) => a['MealName'].compareTo(b['MealName']));

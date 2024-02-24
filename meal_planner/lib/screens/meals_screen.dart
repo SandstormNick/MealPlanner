@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/meal_provider.dart';
 
 import '../widgets/meal_label_card.dart';
+import '../widgets/meal_widgets/edit_meal_form.dart';
 
 class MealsScreen extends ConsumerWidget {
   const MealsScreen({Key? key}) : super(key: key);
@@ -19,8 +20,28 @@ class MealsScreen extends ConsumerWidget {
                 child: CircularProgressIndicator(),
               )
             : Consumer(
-                child: const Center(
-                  child: Text('Add Meals'),
+                child: Column(
+                  children: [
+                    const Expanded(
+                      child: Center(
+                        child: Text('Add Meals'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const EditMealForm();
+                            },
+                          );
+                        },
+                        child: const Text('Add Meal'),
+                      ),
+                    ),
+                  ],
                 ),
                 builder: (context, ref, child) =>
                     ref.watch(mealProvider).isEmpty
@@ -42,7 +63,14 @@ class MealsScreen extends ConsumerWidget {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const EditMealForm();
+                                    },
+                                  );
+                                },
                                 child: const Text('Add Meal'),
                               ),
                             ),

@@ -36,8 +36,7 @@ class DBHelper {
     await SeedData.seedDaysTableData(db);
     await SeedData.seedMealTimeTableData(db);
     await SeedData.seedDayMealTimeTableData(db);
-    await SeedData.seedMealTableData(
-        db); //This is temporary while I design the Meals screen
+    await SeedData.seedMealTableData(db);
     await SeedData.seedIngredientTableData(
         db); //This is temporary while I design the Ingredients screen
   }

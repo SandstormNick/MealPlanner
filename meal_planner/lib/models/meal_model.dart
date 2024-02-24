@@ -1,10 +1,10 @@
 class Meal {
-  int mealId;
+  int? mealId;
   String mealName;
   bool isDeleted;
 
   Meal({
-    required this.mealId,
+    this.mealId,
     required this.mealName,
     this.isDeleted = false,
   });

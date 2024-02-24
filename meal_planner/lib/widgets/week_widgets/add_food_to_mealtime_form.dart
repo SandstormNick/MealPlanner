@@ -99,7 +99,7 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
                     }).toList(),
                     onChanged: (selectedMeal) {
                       if (selectedMeal != null) {
-                        setFoodItemId(selectedMeal.mealId);
+                        setFoodItemId(selectedMeal.mealId!);
                         setFoodItemName(selectedMeal.mealName);
                       }
                     },

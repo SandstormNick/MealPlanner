@@ -51,11 +51,6 @@ class SeedData {
 
   static Future<void> seedMealTableData(Database db) async {
     await db.insert('meal', {'MealId': -1, 'MealName': 'None'});
-    await db.insert('meal', {'MealName': 'Chicken stir fry'});
-    await db.insert('meal', {'MealName': 'Beef stir fry'});
-    await db.insert('meal', {'MealName': 'Chicken salad'});
-    await db.insert('meal', {'MealName': 'Tuna salad'});
-    await db.insert('meal', {'MealName': 'Yoghurt @ work'});
   }
 
   static Future<void> seedIngredientTableData(Database db) async {
