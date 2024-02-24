@@ -46,6 +46,17 @@ class MealNotifier extends StateNotifier<List<Meal>> {
     return state;
   }
 
+  Future<void> updateMeal(Meal meal) async {
+    DBHelper.update(
+      'meal',
+      {
+        'MealName': meal.mealName,
+      },
+      'MealId = ?',
+      meal.mealId,
+    );
+  }
+
   void printItemsDebugMethod() async {
     final mealsDataList =
         await DBHelper.getDataNotDeleted('meal', 'IsDeleted = 0');

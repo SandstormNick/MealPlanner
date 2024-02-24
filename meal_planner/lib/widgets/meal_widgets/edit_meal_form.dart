@@ -49,7 +49,14 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
       if (ref.watch(mealProvider.notifier).checkIfMealExists(newMealName)) {
         await _showAlertDialog(newMealName);
       } else {
-        ref.watch(mealProvider.notifier).addMeal(_mealNameController.text);
+        if (widget.isAdding){
+          ref.watch(mealProvider.notifier).addMeal(_mealNameController.text);
+        }
+        else {
+          widget.meal!.mealName = newMealName;
+          ref.watch(mealProvider.notifier).updateMeal(widget.meal!);
+        }
+        
       }
     }
   }
