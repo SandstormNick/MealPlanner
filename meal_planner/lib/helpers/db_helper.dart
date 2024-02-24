@@ -36,8 +36,10 @@ class DBHelper {
     await SeedData.seedDaysTableData(db);
     await SeedData.seedMealTimeTableData(db);
     await SeedData.seedDayMealTimeTableData(db);
-    await SeedData.seedMealTableData(db); //This is temporary will I design the Meals screen
-    await SeedData.seedIngredientTableData(db); //This is temporary will I design the Ingredients screen
+    await SeedData.seedMealTableData(
+        db); //This is temporary while I design the Meals screen
+    await SeedData.seedIngredientTableData(
+        db); //This is temporary while I design the Ingredients screen
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {
@@ -55,12 +57,14 @@ class DBHelper {
     );
   }
 
-  static Future<List<Map<String, dynamic>>> getDataRawQuery(String queryName) async {
+  static Future<List<Map<String, dynamic>>> getDataRawQuery(
+      String queryName) async {
     final db = await DBHelper.database();
     return db.rawQuery(RawSQLQueryHelper.getSQLQueryString(queryName));
   }
 
-  static Future<List<Map<String, dynamic>>> getDataRawQueryWithId(String queryName, String whereClause) async {
+  static Future<List<Map<String, dynamic>>> getDataRawQueryWithId(
+      String queryName, String whereClause) async {
     final db = await DBHelper.database();
     String sqlQuery = queryName + whereClause;
     return db.rawQuery(sqlQuery);
@@ -73,5 +77,17 @@ class DBHelper {
       data,
       conflictAlgorithm: sql.ConflictAlgorithm.replace,
     );
+  }
+
+  static Future<int> insertReturnId(
+      String table, Map<String, Object> data) async {
+    final db = await DBHelper.database();
+    final int insertedId = await db.insert(
+      table,
+      data,
+      conflictAlgorithm: sql.ConflictAlgorithm.replace,
+    );
+
+    return insertedId;
   }
 }
