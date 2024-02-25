@@ -20,7 +20,7 @@ class MealNotifier extends StateNotifier<List<Meal>> {
   }
 
   bool checkIfMealExists(String newMealName) {
-    return state.any((meal) => meal.mealName == newMealName);
+    return state.any((meal) => meal.mealName.toLowerCase() == newMealName.toLowerCase());
   }
 
   Future<void> fetchAndSetMeals() async {

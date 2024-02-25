@@ -46,17 +46,17 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
     if (_formKey.currentState!.validate()) {
       var newMealName = _mealNameController.text;
 
-      if (ref.watch(mealProvider.notifier).checkIfMealExists(newMealName)) {
-        await _showAlertDialog(newMealName);
-      } else {
-        if (widget.isAdding){
-          ref.watch(mealProvider.notifier).addMeal(_mealNameController.text);
+      if (widget.meal!.mealName.toLowerCase() != newMealName.toLowerCase()) {
+        if (ref.watch(mealProvider.notifier).checkIfMealExists(newMealName)) {
+          await _showAlertDialog(newMealName);
+        } else {
+          if (widget.isAdding) {
+            ref.watch(mealProvider.notifier).addMeal(_mealNameController.text);
+          } else {
+            widget.meal!.mealName = newMealName;
+            ref.watch(mealProvider.notifier).updateMeal(widget.meal!);
+          }
         }
-        else {
-          widget.meal!.mealName = newMealName;
-          ref.watch(mealProvider.notifier).updateMeal(widget.meal!);
-        }
-        
       }
     }
   }
@@ -65,7 +65,7 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
   void initState() {
     super.initState();
 
-    if (!widget.isAdding){
+    if (!widget.isAdding) {
       _mealNameController.text = widget.meal!.mealName;
     }
   }
@@ -79,7 +79,9 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            widget.isAdding ? const Text('Add Meal') : Text('Edit ${widget.meal!.mealName}'),
+            widget.isAdding
+                ? const Text('Add Meal')
+                : Text('Edit ${widget.meal!.mealName}'),
             TextFormField(
               controller: _mealNameController,
               decoration: const InputDecoration(labelText: 'Meal Name'),
