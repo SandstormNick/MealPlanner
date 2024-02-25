@@ -1,10 +1,10 @@
 class Ingredient {
-  int ingredientId;
+  int? ingredientId;
   String ingredientName;
   bool isDeleted;
 
   Ingredient({
-    required this.ingredientId,
+    this.ingredientId,
     required this.ingredientName,
     this.isDeleted = false,
   });

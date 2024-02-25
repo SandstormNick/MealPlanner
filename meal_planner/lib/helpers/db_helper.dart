@@ -37,8 +37,7 @@ class DBHelper {
     await SeedData.seedMealTimeTableData(db);
     await SeedData.seedDayMealTimeTableData(db);
     await SeedData.seedMealTableData(db);
-    await SeedData.seedIngredientTableData(
-        db); //This is temporary while I design the Ingredients screen
+    await SeedData.seedIngredientTableData(db);
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {
