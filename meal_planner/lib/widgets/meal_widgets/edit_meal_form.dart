@@ -45,9 +45,17 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
   Future<void> _saveItem() async {
     if (_formKey.currentState!.validate()) {
       var newMealName = _mealNameController.text;
+      bool skipSave = false;
+      bool nameAlreadyExists = false;
 
-      if (widget.meal!.mealName.toLowerCase() != newMealName.toLowerCase()) {
+      if (!widget.isAdding &&
+          widget.meal!.mealName.toLowerCase() == newMealName.toLowerCase()) {
+        skipSave = true;
+      }
+
+      if (!skipSave) {
         if (ref.watch(mealProvider.notifier).checkIfMealExists(newMealName)) {
+          nameAlreadyExists = true;
           await _showAlertDialog(newMealName);
         } else {
           if (widget.isAdding) {
@@ -57,6 +65,10 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
             ref.watch(mealProvider.notifier).updateMeal(widget.meal!);
           }
         }
+      }
+
+      if (mounted && !nameAlreadyExists) {
+        Navigator.pop(context);
       }
     }
   }
