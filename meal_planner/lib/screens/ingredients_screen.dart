@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/ingredient_provider.dart';
 
 import '../widgets/ingredient_label_card.dart';
+import '../widgets/ingredient_widgets/edit_ingredient_form.dart';
 
 class IngredientsScreen extends ConsumerWidget {
   const IngredientsScreen({Key? key}) : super(key: key);
@@ -35,14 +36,22 @@ class IngredientsScreen extends ConsumerWidget {
                                 final ingredient = ref
                                     .watch(ingredientProvider)
                                     .elementAt(index);
-                                return IngredientLabelCard(ingredient: ingredient);
+                                return IngredientLabelCard(
+                                    ingredient: ingredient);
                               },
                             ),
                           ),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const EditIngredientForm();
+                                  },
+                                );
+                              },
                               child: const Text('Add Ingredient'),
                             ),
                           )
