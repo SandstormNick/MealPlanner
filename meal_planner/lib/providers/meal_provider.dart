@@ -17,6 +17,8 @@ class MealNotifier extends StateNotifier<List<Meal>> {
     newMeal.mealId = insertedId;
 
     state.add(newMeal);
+    state.sort((a, b) => a.mealName.compareTo(b.mealName));
+    state = [...state];
   }
 
   bool checkIfMealExists(String newMealName) {
