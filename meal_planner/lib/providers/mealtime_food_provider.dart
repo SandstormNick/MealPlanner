@@ -15,9 +15,9 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
   ) async {
     final mealtimeFoodItem = MealTimeFood(
       dayMealTimeId: dayMealTimeId,
-      mealId: isMeal ? foodItemId : null,
+      mealId: isMeal ? foodItemId : -1,
       mealName: isMeal ? foodItemName : '',
-      ingredientId: !isMeal ? foodItemId : null,
+      ingredientId: !isMeal ? foodItemId : -1,
       ingredientName: !isMeal ? foodItemName : '',
     );
 
