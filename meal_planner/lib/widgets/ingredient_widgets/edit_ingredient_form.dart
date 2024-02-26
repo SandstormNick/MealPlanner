@@ -45,14 +45,47 @@ class _EditIngredientFormState extends ConsumerState<EditIngredientForm> {
   Future<void> _saveItem() async {
     if (_formKey.currentState!.validate()) {
       var newIngredientName = _ingredientNameController.text;
+      bool skipSave = false;
       bool nameAlreadyExists = false;
 
-      if (ref.watch(ingredientProvider.notifier).checkIfIngredientExists(newIngredientName)) {
-        nameAlreadyExists = true;
-        await _showAlertDialog(newIngredientName);
-      } else {
-        ref.watch(ingredientProvider.notifier).addIngredient(newIngredientName);
+      if (!widget.isAdding &&
+          widget.ingredient!.ingredientName.toLowerCase() ==
+              newIngredientName.toLowerCase()) {
+        skipSave = true;
       }
+
+      if (!skipSave) {
+        if (ref
+            .watch(ingredientProvider.notifier)
+            .checkIfIngredientExists(newIngredientName)) {
+          nameAlreadyExists = true;
+          await _showAlertDialog(newIngredientName);
+        } else {
+          if (widget.isAdding) {
+            ref
+                .watch(ingredientProvider.notifier)
+                .addIngredient(newIngredientName);
+          } else {
+            widget.ingredient!.ingredientName = newIngredientName;
+            ref
+                .watch(ingredientProvider.notifier)
+                .updateIngredient(widget.ingredient!);
+          }
+        }
+      }
+
+      if (mounted && !nameAlreadyExists) {
+        Navigator.pop(context);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (!widget.isAdding) {
+      _ingredientNameController.text = widget.ingredient!.ingredientName;
     }
   }
 
@@ -67,7 +100,7 @@ class _EditIngredientFormState extends ConsumerState<EditIngredientForm> {
           children: [
             widget.isAdding
                 ? const Text('Add Ingredient')
-                : const Text('Edit Meal'),
+                : Text('Edit ${widget.ingredient!.ingredientName}'),
             TextFormField(
               controller: _ingredientNameController,
               decoration: const InputDecoration(labelText: 'Ingredient Name'),
