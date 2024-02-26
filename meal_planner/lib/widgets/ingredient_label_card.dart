@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/ingredient_model.dart';
 
+import './ingredient_widgets/edit_ingredient_form.dart';
+
 class IngredientLabelCard extends ConsumerWidget {
   final Ingredient ingredient;
 
@@ -13,12 +15,25 @@ class IngredientLabelCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          ingredient.ingredientName,
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return EditIngredientForm(
+              isAdding: false,
+              ingredient: ingredient,
+            );
+          },
+        );
+      },
+      child: Card(
+        elevation: 3,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            ingredient.ingredientName,
+          ),
         ),
       ),
     );
