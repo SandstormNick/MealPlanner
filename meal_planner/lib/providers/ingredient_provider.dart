@@ -21,6 +21,10 @@ class IngredientNotifier extends StateNotifier<List<Ingredient>> {
     state = [...state];
   }
 
+  bool checkIfIngredientExists(String newIngredientName) {
+    return state.any((ingredient) => ingredient.ingredientName.toLowerCase() == newIngredientName.toLowerCase());
+  }
+
   Future<void> fetchAndSetIngredients() async {
     if (state.isEmpty) {
       final ingredientDataList = await DBHelper.getDataNotDeleted(

@@ -48,7 +48,9 @@ class IngredientsScreen extends ConsumerWidget {
                                 showModalBottomSheet(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return const EditIngredientForm();
+                                    return const EditIngredientForm(
+                                      isAdding: true,
+                                    );
                                   },
                                 );
                               },
