@@ -20,8 +20,30 @@ class IngredientsScreen extends ConsumerWidget {
                 child: CircularProgressIndicator(),
               )
             : Consumer(
-                child: const Center(
-                  child: Text('Add Ingredients'),
+                child: Column(
+                  children: [
+                    const Expanded(
+                      child: Center(
+                        child: Text('Add Ingredients'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const EditIngredientForm(
+                                isAdding: true,
+                              );
+                            },
+                          );
+                        },
+                        child: const Text('Add Ingredient'),
+                      ),
+                    )
+                  ],
                 ),
                 builder: (context, ref, child) => ref
                         .watch(ingredientProvider)
