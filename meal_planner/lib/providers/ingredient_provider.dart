@@ -22,7 +22,9 @@ class IngredientNotifier extends StateNotifier<List<Ingredient>> {
   }
 
   bool checkIfIngredientExists(String newIngredientName) {
-    return state.any((ingredient) => ingredient.ingredientName.toLowerCase() == newIngredientName.toLowerCase());
+    return state.any((ingredient) =>
+        ingredient.ingredientName.toLowerCase() ==
+        newIngredientName.toLowerCase());
   }
 
   Future<void> fetchAndSetIngredients() async {
@@ -57,6 +59,8 @@ class IngredientNotifier extends StateNotifier<List<Ingredient>> {
       'IngredientId = ?',
       ingredient.ingredientId,
     );
+
+    state = [...state];
   }
 }
 
