@@ -8,7 +8,7 @@ import '../providers/mealtime_food_provider.dart';
 
 import '../widgets/day_card.dart';
 
-import '../models/day_mealtime_model.dart'; 
+import '../models/day_mealtime_model.dart';
 
 class WeekScreen extends ConsumerWidget {
   const WeekScreen({Key? key}) : super(key: key);
@@ -23,23 +23,32 @@ class WeekScreen extends ConsumerWidget {
       body: FutureBuilder(
         future:
             ref.read(dayMealTimeProvider.notifier).fetchAndSetDayMealTimes(),
-        builder: (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : 
-                ListView.builder(
-                    itemCount: (ref.watch(dayMealTimeProvider).length / 3).ceil(),
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Consumer(
+                builder: (context, ref, child) {
+                  ref.watch(mealtimeFoodProvider);
+
+                  return ListView.builder(
+                    itemCount:
+                        (ref.watch(dayMealTimeProvider).length / 3).ceil(),
                     itemBuilder: (BuildContext context, int index) {
                       int start = index * 3;
-                      int end = (start + 3) > ref.watch(dayMealTimeProvider).length ? ref.watch(dayMealTimeProvider).length : (start + 3);
+                      int end =
+                          (start + 3) > ref.watch(dayMealTimeProvider).length
+                              ? ref.watch(dayMealTimeProvider).length
+                              : (start + 3);
 
-                      List<DayMealTime> sublist = ref.watch(dayMealTimeProvider).sublist(start, end);
-                      
+                      List<DayMealTime> sublist =
+                          ref.watch(dayMealTimeProvider).sublist(start, end);
+
                       return DayCard(dayMealTimeList: sublist);
                     },
-                  ),
+                  );
+                }),
       ),
     );
   }
