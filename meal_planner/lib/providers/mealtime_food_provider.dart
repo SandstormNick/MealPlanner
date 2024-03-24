@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../helpers/db_helper.dart';
 
 import '../models/mealtime_food_model.dart';
+import '../models/meal_model.dart';
 
 class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
   MealTimeFoodNotifier() : super([]);
@@ -59,6 +60,17 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
         .toList();
 
     return mealTimeFoods;
+  }
+
+  Future<void> updateMealInMealTimeFood(Meal meal) async {
+
+    for (var element in state) {
+      if (element.mealId == meal.mealId){
+        element.mealName = meal.mealName;
+      }
+    }
+
+    state = [...state];
   }
 
   //But use it to try print the mealtime_food table records

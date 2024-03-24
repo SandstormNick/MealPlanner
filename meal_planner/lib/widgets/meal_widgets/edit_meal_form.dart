@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/meal_model.dart';
 
 import '../../providers/meal_provider.dart';
+import '../../providers/mealtime_food_provider.dart';
 
 import '../alert_dialog.dart';
 
@@ -63,6 +64,7 @@ class _EditMealFormState extends ConsumerState<EditMealForm> {
           } else {
             widget.meal!.mealName = newMealName;
             ref.watch(mealProvider.notifier).updateMeal(widget.meal!);
+            ref.watch(mealtimeFoodProvider.notifier).updateMealInMealTimeFood(widget.meal!);
           }
         }
       }
