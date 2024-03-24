@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/ingredient_model.dart';
 
 import '../../providers/ingredient_provider.dart';
+import '../../providers/mealtime_food_provider.dart';
 
 import '../alert_dialog.dart';
 
@@ -70,6 +71,7 @@ class _EditIngredientFormState extends ConsumerState<EditIngredientForm> {
             ref
                 .watch(ingredientProvider.notifier)
                 .updateIngredient(widget.ingredient!);
+            ref.watch(mealtimeFoodProvider.notifier).updateIngredientInMealTimeFood(widget.ingredient!);
           }
         }
       }

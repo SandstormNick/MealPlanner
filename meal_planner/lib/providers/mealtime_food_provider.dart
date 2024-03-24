@@ -4,6 +4,7 @@ import '../helpers/db_helper.dart';
 
 import '../models/mealtime_food_model.dart';
 import '../models/meal_model.dart';
+import '../models/ingredient_model.dart';
 
 class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
   MealTimeFoodNotifier() : super([]);
@@ -60,6 +61,14 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
         .toList();
 
     return mealTimeFoods;
+  }
+
+  Future<void> updateIngredientInMealTimeFood(Ingredient ingredient) async {
+    for (var element in state) {
+      if (element.ingredientId == ingredient.ingredientId) {
+        element.ingredientName = ingredient.ingredientName;
+      }
+    }
   }
 
   Future<void> updateMealInMealTimeFood(Meal meal) async {
