@@ -9,6 +9,8 @@ import '../models/ingredient_model.dart';
 class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
   MealTimeFoodNotifier() : super([]);
 
+  bool foodItemDeleted = false;
+
   Future<void> addFoodItem(
     int dayMealTimeId,
     int foodItemId,
@@ -45,8 +47,25 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
     }
   }
 
+  Future<void> deleteFoodItem(MealTimeFood mealTimeFood) async {
+    DBHelper.update(
+      'mealtime_food', 
+      {
+        'IsDeleted': 1,
+      }, 
+      'MealTimeFoodId = ?', 
+      mealTimeFood.mealTimeFoodId
+    );
+
+    state = [...state];
+
+    foodItemDeleted = true;
+  }
+
   Future<void> fetchAndSetMealTimeFoods() async {
-    if (state.isEmpty) {
+    if (state.isEmpty || foodItemDeleted) {
+      foodItemDeleted = false;
+
       final mealtimeFoodDataList =
           await DBHelper.getDataRawQuery('mealtimeFoodTableData');
 
