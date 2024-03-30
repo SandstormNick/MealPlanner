@@ -34,6 +34,15 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
     state = [...state];
   }
 
+  bool checkIfFoodItemExistsForMealTimeFood(bool isMeal, int foodItemID, int dayMealTimeID) {
+    if (isMeal) {
+      return state.any((mealtimeFood) => mealtimeFood.mealId == foodItemID && mealtimeFood.dayMealTimeId == dayMealTimeID);
+    }
+    else {
+      return state.any((mealtimeFood) => mealtimeFood.ingredientId == foodItemID && mealtimeFood.dayMealTimeId == dayMealTimeID);
+    }
+  }
+
   Future<void> fetchAndSetMealTimeFoods() async {
     if (state.isEmpty) {
       final mealtimeFoodDataList =

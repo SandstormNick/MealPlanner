@@ -51,8 +51,11 @@ class _AddFoodToMealTimeFormState extends ConsumerState<AddFoodToMealTimeForm> {
 
     Future<void> save() async {
       if (_foodItemId != -1) {
-        ref.watch(mealtimeFoodProvider.notifier).addFoodItem(
-            dayMealTime.dayMealTimeId, _foodItemId, _foodItemName, _isMeal);
+
+        if (!ref.watch(mealtimeFoodProvider.notifier).checkIfFoodItemExistsForMealTimeFood(_isMeal, _foodItemId, dayMealTime.dayMealTimeId)) {
+          ref.watch(mealtimeFoodProvider.notifier).addFoodItem(
+              dayMealTime.dayMealTimeId, _foodItemId, _foodItemName, _isMeal);
+        }
 
         if (mounted) {
           Navigator.pop(context);
