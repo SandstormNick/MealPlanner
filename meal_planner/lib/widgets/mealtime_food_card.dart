@@ -4,6 +4,8 @@ import 'package:meal_planner/providers/mealtime_food_provider.dart';
 
 import '../models/mealtime_food_model.dart';
 
+import './week_widgets/delete_food_item_form.dart';
+
 class MealTimeFoodCard extends ConsumerStatefulWidget {
   final MealTimeFood mealTimeFood;
 
@@ -39,7 +41,12 @@ class _MealTimeFoodCard extends ConsumerState<MealTimeFoodCard> {
         _deleteItem();
       },
       onTap: () {
-        //on a single tap should open up a Modal - making it more clear on how to delete it
+        showModalBottomSheet(
+          context: context, 
+          builder: (BuildContext context) {
+            return const DeleteFoodItemForm();
+          }
+        );
       },
       child: Card(
         elevation: 3,
