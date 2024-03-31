@@ -9,12 +9,16 @@ class RawSQLQueryHelper{
 
   static const String mealtimeFoodTableData = 'SELECT mtf.MealTimeFoodId, mtf.DayMealTimeId_FK, mtf.IsDeleted, m.MealId, m.MealName, i.IngredientId, i.IngredientName FROM mealtime_food mtf JOIN meal m ON mtf.MealId_FK = m.MealId JOIN ingredient i ON mtf.IngredientId_FK = i.IngredientId WHERE mtf.IsDeleted != 1';
 
+  static const String mealtimeFoodTableDataByDayMalTimeId = 'SELECT mtf.MealTimeFoodId, mtf.DayMealTimeId_FK, mtf.IsDeleted, m.MealId, m.MealName, i.IngredientId, i.IngredientName FROM mealtime_food mtf JOIN meal m ON mtf.MealId_FK = m.MealId JOIN ingredient i ON mtf.IngredientId_FK = i.IngredientId WHERE mtf.DayMealTimeId_FK = ';
+
   static String getSQLQueryString(String queryName) {
     switch(queryName){
       case 'dayMealtimeTableData':
         return dayMealtimeTableData;
       case 'mealtimeFoodTableData':
         return mealtimeFoodTableData;
+      case 'mealtimeFoodTableDataByDayMalTimeId':
+        return mealtimeFoodTableDataByDayMalTimeId;
       default:
         return '';
     }

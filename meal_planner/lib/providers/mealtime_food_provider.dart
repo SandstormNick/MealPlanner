@@ -9,7 +9,7 @@ import '../models/ingredient_model.dart';
 class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
   MealTimeFoodNotifier() : super([]);
 
-  bool foodItemDeleted = false;
+  bool foodItemUpdated = false;
 
   Future<void> addFoodItem(
     int dayMealTimeId,
@@ -17,59 +17,12 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
     String foodItemName,
     bool isMeal,
   ) async {
-    final mealtimeFoodItem = MealTimeFood(
-      dayMealTimeId: dayMealTimeId,
-      mealId: isMeal ? foodItemId : -1,
-      mealName: isMeal ? foodItemName : '',
-      ingredientId: !isMeal ? foodItemId : -1,
-      ingredientName: !isMeal ? foodItemName : '',
-    );
+    bool existingMapping = false;
 
-    final int insertedID = await DBHelper.insertReturnId('mealtime_food', {
-      'MealId_FK': isMeal ? foodItemId : -1,
-      'IngredientId_FK': !isMeal ? foodItemId : -1,
-      'DayMealTimeId_FK': mealtimeFoodItem.dayMealTimeId,
-      'IsDeleted': 0
-    });
+    final mealtimeFoodData =
+        await DBHelper.getDataRawQueryWithId('mealtimeFoodTableDataByDayMalTimeId', dayMealTimeId.toString());
 
-    mealtimeFoodItem.mealTimeFoodId = insertedID;    
-
-    state.add(mealtimeFoodItem);
-    state = [...state];
-  }
-
-  bool checkIfFoodItemExistsForMealTimeFood(bool isMeal, int foodItemID, int dayMealTimeID) {
-    if (isMeal) {
-      return state.any((mealtimeFood) => mealtimeFood.mealId == foodItemID && mealtimeFood.dayMealTimeId == dayMealTimeID);
-    }
-    else {
-      return state.any((mealtimeFood) => mealtimeFood.ingredientId == foodItemID && mealtimeFood.dayMealTimeId == dayMealTimeID);
-    }
-  }
-
-  Future<void> deleteFoodItem(MealTimeFood mealTimeFood) async {
-    DBHelper.update(
-      'mealtime_food', 
-      {
-        'IsDeleted': 1,
-      }, 
-      'MealTimeFoodId = ?', 
-      mealTimeFood.mealTimeFoodId
-    );
-
-    state = [...state];
-
-    foodItemDeleted = true;
-  }
-
-  Future<void> fetchAndSetMealTimeFoods() async {
-    if (state.isEmpty || foodItemDeleted) {
-      foodItemDeleted = false;
-
-      final mealtimeFoodDataList =
-          await DBHelper.getDataRawQuery('mealtimeFoodTableData');
-
-      state = mealtimeFoodDataList
+    mealtimeFoodData
         .map(
           (mapItem) => MealTimeFood(
             mealTimeFoodId: mapItem['MealTimeFoodId'],
@@ -82,6 +35,104 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
           ),
         )
         .toList();
+
+    if (isMeal) {
+      existingMapping = mealtimeFoodData.any((element) => element['MealId'] == foodItemId);
+    } else {
+      existingMapping = mealtimeFoodData.any((element) => element['IngredientId'] == foodItemId);
+    }
+
+    if (!existingMapping) {
+      final mealtimeFoodItem = MealTimeFood(
+        dayMealTimeId: dayMealTimeId,
+        mealId: isMeal ? foodItemId : -1,
+        mealName: isMeal ? foodItemName : '',
+        ingredientId: !isMeal ? foodItemId : -1,
+        ingredientName: !isMeal ? foodItemName : '',
+      );
+
+      final int insertedID = await DBHelper.insertReturnId('mealtime_food', {
+        'MealId_FK': isMeal ? foodItemId : -1,
+        'IngredientId_FK': !isMeal ? foodItemId : -1,
+        'DayMealTimeId_FK': mealtimeFoodItem.dayMealTimeId,
+        'IsDeleted': 0
+      });
+
+      mealtimeFoodItem.mealTimeFoodId = insertedID;
+
+      state.add(mealtimeFoodItem);
+
+    } else {
+      Map<String, dynamic> filteredmealtimeFoodData;
+      if (isMeal) {
+        filteredmealtimeFoodData = mealtimeFoodData.firstWhere((element) => element['MealId'] == foodItemId);
+      }
+      else {
+        filteredmealtimeFoodData = mealtimeFoodData.firstWhere((element) => element['IngredientId'] == foodItemId);
+      }
+
+      DBHelper.update(
+        'mealtime_food',
+        {
+          'IsDeleted': 0,
+        },
+        'MealTimeFoodId = ?',
+        filteredmealtimeFoodData['MealTimeFoodId']);
+
+      foodItemUpdated = true;
+    }
+
+    state = [...state];
+    fetchAndSetMealTimeFoods();
+  }
+
+  bool checkIfFoodItemExistsForMealTimeFood(
+      bool isMeal, int foodItemID, int dayMealTimeID) {
+    if (isMeal) {
+      return state.any((mealtimeFood) =>
+          mealtimeFood.mealId == foodItemID &&
+          mealtimeFood.dayMealTimeId == dayMealTimeID);
+    } else {
+      return state.any((mealtimeFood) =>
+          mealtimeFood.ingredientId == foodItemID &&
+          mealtimeFood.dayMealTimeId == dayMealTimeID);
+    }
+  }
+
+  Future<void> deleteFoodItem(MealTimeFood mealTimeFood) async {
+    DBHelper.update(
+        'mealtime_food',
+        {
+          'IsDeleted': 1,
+        },
+        'MealTimeFoodId = ?',
+        mealTimeFood.mealTimeFoodId);
+
+    state = [...state];
+
+    foodItemUpdated = true;
+  }
+
+  Future<void> fetchAndSetMealTimeFoods() async {
+    if (state.isEmpty || foodItemUpdated) {
+      foodItemUpdated = false;
+
+      final mealtimeFoodDataList =
+          await DBHelper.getDataRawQuery('mealtimeFoodTableData');
+
+      state = mealtimeFoodDataList
+          .map(
+            (mapItem) => MealTimeFood(
+              mealTimeFoodId: mapItem['MealTimeFoodId'],
+              dayMealTimeId: mapItem['DayMealTimeId_FK'],
+              mealId: mapItem['MealId'],
+              mealName: mapItem['MealName'],
+              ingredientId: mapItem['IngredientId'],
+              ingredientName: mapItem['IngredientName'],
+              isDeleted: mapItem['IsDeleted'] == 0 ? false : true,
+            ),
+          )
+          .toList();
     }
   }
 
@@ -102,9 +153,8 @@ class MealTimeFoodNotifier extends StateNotifier<List<MealTimeFood>> {
   }
 
   Future<void> updateMealInMealTimeFood(Meal meal) async {
-
     for (var element in state) {
-      if (element.mealId == meal.mealId){
+      if (element.mealId == meal.mealId) {
         element.mealName = meal.mealName;
       }
     }

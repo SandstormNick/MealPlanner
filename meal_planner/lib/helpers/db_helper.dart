@@ -64,7 +64,7 @@ class DBHelper {
   static Future<List<Map<String, dynamic>>> getDataRawQueryWithId(
       String queryName, String whereClause) async {
     final db = await DBHelper.database();
-    String sqlQuery = queryName + whereClause;
+    String sqlQuery = RawSQLQueryHelper.getSQLQueryString(queryName) + whereClause;
     return db.rawQuery(sqlQuery);
   }
 
