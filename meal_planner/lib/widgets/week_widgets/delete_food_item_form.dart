@@ -5,6 +5,7 @@ import '../../models/day_mealtime_model.dart';
 import '../../models/mealtime_food_model.dart';
 
 import '../../providers/day_mealtime_provider.dart';
+import 'package:meal_planner/providers/mealtime_food_provider.dart';
 
 class DeleteFoodItemForm extends ConsumerStatefulWidget {
   final int dayMealTimeId;
@@ -30,6 +31,18 @@ class _DeleteFoodItemFormState extends ConsumerState<DeleteFoodItemForm> {
     DayMealTime dayMealTime = ref
         .watch(dayMealTimeProvider.notifier)
         .getDayMealTimeById(widget.dayMealTimeId);
+
+    Future<void> deleteItem() async {
+      widget.mealTimeFood.isDeleted = true;
+      ref
+          .watch(mealtimeFoodProvider.notifier)
+          .deleteFoodItem(widget.mealTimeFood);
+      ref.watch(mealtimeFoodProvider.notifier).fetchAndSetMealTimeFoods();
+
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    }
 
     return Form(
         child: Container(
@@ -59,7 +72,9 @@ class _DeleteFoodItemFormState extends ConsumerState<DeleteFoodItemForm> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                deleteItem();
+              },
               child: const Text('REMOVE'),
             ),
           )
