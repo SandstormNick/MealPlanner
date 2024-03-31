@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/day_mealtime_model.dart';
+import '../../models/mealtime_food_model.dart';
+
+import '../../providers/day_mealtime_provider.dart';
+
 class DeleteFoodItemForm extends ConsumerStatefulWidget {
+  final int dayMealTimeId;
+  final MealTimeFood mealTimeFood;
+
   const DeleteFoodItemForm({
     Key? key,
+    required this.dayMealTimeId,
+    required this.mealTimeFood,
   }) : super(key: key);
 
   @override
@@ -13,15 +23,48 @@ class DeleteFoodItemForm extends ConsumerStatefulWidget {
 class _DeleteFoodItemFormState extends ConsumerState<DeleteFoodItemForm> {
   @override
   Widget build(BuildContext context) {
+    String foodItemName = widget.mealTimeFood.mealId != -1
+        ? widget.mealTimeFood.mealName
+        : widget.mealTimeFood.ingredientName;
+
+    DayMealTime dayMealTime = ref
+        .watch(dayMealTimeProvider.notifier)
+        .getDayMealTimeById(widget.dayMealTimeId);
+
     return Form(
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text('Hello'),
-          ],
-        ),
-      ));
+        child: Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Text.rich(
+            TextSpan(
+              children: [
+                const TextSpan(text: 'Remove '),
+                TextSpan(
+                  text: foodItemName,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const TextSpan(text: ' from:'),
+              ],
+            ),
+          ),
+          Text('${dayMealTime.dayName} - ${dayMealTime.mealTimeName}'),
+          const Divider(
+            color: Colors.black,
+            thickness: 1.0,
+          ),
+          const Text(
+              'You can also remove a food item by double clicking on it.'),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: const Text('REMOVE'),
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }

@@ -29,7 +29,9 @@ class _MealTimeFoodCard extends ConsumerState<MealTimeFoodCard> {
 
   Future<void> _deleteItem() async {
     widget.mealTimeFood.isDeleted = true;
-    ref.watch(mealtimeFoodProvider.notifier).deleteFoodItem(widget.mealTimeFood);
+    ref
+        .watch(mealtimeFoodProvider.notifier)
+        .deleteFoodItem(widget.mealTimeFood);
     ref.watch(mealtimeFoodProvider.notifier).fetchAndSetMealTimeFoods();
   }
 
@@ -42,11 +44,13 @@ class _MealTimeFoodCard extends ConsumerState<MealTimeFoodCard> {
       },
       onTap: () {
         showModalBottomSheet(
-          context: context, 
-          builder: (BuildContext context) {
-            return const DeleteFoodItemForm();
-          }
-        );
+            context: context,
+            builder: (BuildContext context) {
+              return DeleteFoodItemForm(
+                dayMealTimeId: widget.mealTimeFood.dayMealTimeId,
+                mealTimeFood: widget.mealTimeFood,
+              );
+            });
       },
       child: Card(
         elevation: 3,
