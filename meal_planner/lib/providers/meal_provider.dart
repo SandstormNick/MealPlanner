@@ -28,7 +28,7 @@ class MealNotifier extends StateNotifier<List<Meal>> {
 
   Future<void> fetchAndSetMeals() async {
     if (state.isEmpty) {
-      final mealsDataList = await DBHelper.getDataNotDeleted(
+      final mealsDataList = await DBHelper.getDataWhereClause(
           'meal', 'IsDeleted = 0 AND MealName != "None"');
 
       List<Map<String, dynamic>> mealsList = List.from(mealsDataList);
@@ -64,7 +64,7 @@ class MealNotifier extends StateNotifier<List<Meal>> {
 
   void printItemsDebugMethod() async {
     final mealsDataList =
-        await DBHelper.getDataNotDeleted('meal', 'IsDeleted = 0');
+        await DBHelper.getDataWhereClause('meal', 'IsDeleted = 0');
 
     List<Map<String, dynamic>> mealsList = List.from(mealsDataList);
 

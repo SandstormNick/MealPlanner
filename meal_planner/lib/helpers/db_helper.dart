@@ -26,7 +26,7 @@ class DBHelper {
     await db.execute(
         'CREATE TABLE meal_ingredient(MealIngredientId INTEGER PRIMARY KEY, MealId_FK INTEGER, IngredientId_FK INTEGER, FOREIGN KEY (MealId_FK) REFERENCES meal(MealId), FOREIGN KEY (IngredientId_FK) REFERENCES ingredient(IngredientId))');
     await db.execute(
-        'CREATE TABLE shopping_list(ShoppingListItemId INTEGER PRIMARY KEY, MealId_FK INTEGER, IngredientId_FK INTEGER, IsMeal INTEGER, FOREIGN KEY (MealId_FK) REFERENCES meal(MealId), FOREIGN KEY (IngredientId_FK) REFERENCES ingredient(IngredientId))');
+        'CREATE TABLE shopping_list(ShoppingListItemId INTEGER PRIMARY KEY, MealId_FK INTEGER, IngredientId_FK INTEGER, IsMeal INTEGER, FOREIGN KEY (MealId_FK) REFERENCES meal(MealId), FOREIGN KEY (IngredientId_FK) REFERENCES ingredient(IngredientId))'); //Pretty sure I can remove the IsMeal column
 
     //This is the main joining table that links meals/ingredients with the day_mealtime table and displays on the main Week screen
     await db.execute(
@@ -45,7 +45,7 @@ class DBHelper {
     return db.query(table);
   }
 
-  static Future<List<Map<String, dynamic>>> getDataNotDeleted(
+  static Future<List<Map<String, dynamic>>> getDataWhereClause(
       String table, String whereClause) async {
     final db = await DBHelper.database();
 
